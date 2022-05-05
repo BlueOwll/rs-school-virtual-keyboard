@@ -1,0 +1,57 @@
+$key-size: 30px;
+$key-gap: $key-size / 5;
+$key-tab-size: $key-size * 1.2;
+$key-double-size: $key-size *2 + $key-gap;
+$key-back: $key-double-size + $key-gap;
+$key-space-size: ($key-size  + $key-gap) * 7;
+$view-width: ($key-size + $key-gap *0.8)* 15;
+$font-size: $key-size / 3;
+
+html{
+    font-size: 10px;
+}
+.view{
+    min-width: $view-width;
+    width: $view-width;
+}
+
+.keyButton{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    background-color: #000;
+    color:#FFF;
+    width:$key-size;
+    height:$key-size;
+    border-radius: 5px;
+    font: normal 400 1rem/110% Arial,sans-serif;
+    user-select: none;
+    p{
+        margin:auto;
+    }
+    &:hover{
+        background-color: blueviolet;
+    }
+    &.tab-size{
+        width: $key-tab-size;
+    }
+    &.double-size{
+        width: $key-double-size;
+    }
+    &.space{
+        width: $key-space-size; 
+    }
+
+}
+.keyboard{
+    display: flex;
+    flex-direction: column;
+    gap: $key-gap;
+    padding: $key-gap;
+}
+.keyboard-row{
+    display: flex;
+    justify-content: space-between;
+
+}
