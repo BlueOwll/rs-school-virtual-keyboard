@@ -35,6 +35,10 @@ html {
 }
 
 .keyButton:hover {
+  background-color: #4d1a7c;
+}
+
+.keyButton.pressed {
   background-color: blueviolet;
 }
 

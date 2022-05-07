@@ -31,6 +31,9 @@ html{
         margin:auto;
     }
     &:hover{
+        background-color: rgb(77, 26, 124);
+    }
+    &.pressed{
         background-color: blueviolet;
     }
     &.tab-size{
