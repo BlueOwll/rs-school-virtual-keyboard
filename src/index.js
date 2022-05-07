@@ -49,15 +49,17 @@ window.onload = function () {
     addVirtKeyBoardEventsHandler();
 };
 const pressedKeys = [];
-let mousePressedKey = null;
+let mousePressedKey = '';
 
 const addKeyboardEventsHandler = function () {
     document.addEventListener('keydown', (ev) => {
         ev.preventDefault();
         console.log('key = ', ev.key);
         console.log('code = ', ev.code);
+        console.log('repeat = ', ev.repeat);
         if (!ev.repeat) {
             pressedKeys.push(ev.code);
+            console.log('added ' + ev.code);
         }
         pressButtonHandler(ev.code);
 
@@ -80,7 +82,9 @@ const pressButtonHandler = function (id) {
             currVKey.releaseKey();
         }
     }
+    console.log('shift =' + currVKey.id);
     if (currVKey.id.includes('Shift')) {
+        console.log('includes shift down');
         virtKeyboard.pressedShift();
     }
 };
@@ -96,15 +100,24 @@ const releaseButtonHandler = function (id) {
             localStorage.setItem('isEngl', isEngl);
         }
     }
+    console.log(pressedKeys);
+    console.log('shift up =' + currVKey.id +' i = '+ i);
     if (!(i === -1)) {
         pressedKeys.splice(i, 1);
         if (currVKey.id === 'CapsLock') {
             return;
         }
         if (currVKey.id.includes('Shift')) {
+            console.log('includes shift up');
             virtKeyboard.releaseShift();
         }
         currVKey.releaseKey();
+    } else {
+        const k = pressedKeys.includes(mousePressedKey);
+        if (k !== -1) {
+            pressedKeys.splice(k, 1);
+            mousePressedKey = '';
+        }
     }
 };
 
@@ -116,6 +129,7 @@ const addVirtKeyBoardEventsHandler = function () {
         if (!currKeyElement) {
             return;
         }
+        pressedKeys.push(mousePressedKey);
         pressButtonHandler(currKeyElement.getAttribute('data-id'));
     });
     virtKeyboard.node.addEventListener('mouseup', (ev) => {
