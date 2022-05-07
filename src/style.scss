@@ -14,7 +14,15 @@ html{
     min-width: $view-width;
     width: $view-width;
 }
-
+.textbox{
+    display:block;
+    margin: auto;
+    margin-top: 3 * $key-gap;
+    width:  $view-width - 3 * $key-gap;
+    
+    //width: $key-size * 17;
+    height: $key-size * 4;
+}
 
 .keyButton{
     display:flex;
@@ -62,10 +70,13 @@ html{
 .descr{
     font: normal 400 1.5rem/200% Arial,sans-serif;
     text-align: center;
+    user-select: none;
+
 }
 .lang{
     background-color: blueviolet;
     color: white;
     font: normal 400 1.5rem/200% Arial,sans-serif;
     text-align: center;   
+    user-select: none;
 }

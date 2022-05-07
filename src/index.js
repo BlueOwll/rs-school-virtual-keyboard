@@ -4,14 +4,17 @@
 // import {KeyButton} from './keyButton.js';
 // eslint-disable-next-line import/extensions
 import Keyboard from './keyboard.js';
+// eslint-disable-next-line import/extensions
+import TextBox from './textBox.js';
 
 let isEngl = true;
 let virtKeyboard;
+let textBox;
 let lang;
 
 window.onload = function () {
     if (localStorage.getItem('isEngl') !== null) {
-        console.log('isEngl ' + localStorage.getItem('isEngl'));
+        // console.log('isEngl ' + localStorage.getItem('isEngl'));
         isEngl = localStorage.getItem('isEngl') === 'true';
     } else {
         isEngl = true;
@@ -23,6 +26,8 @@ window.onload = function () {
     const view = document.createElement('div');
     view.className = 'view';
     document.body.append(view);
+
+    textBox = new TextBox(view);
 
     const langLabel = document.createElement('span');
     langLabel.className = 'descr';
@@ -36,12 +41,10 @@ window.onload = function () {
 
     virtKeyboard = new Keyboard(view, isEngl);
 
-
     const descr = document.createElement('p');
     descr.className = 'descr';
     descr.innerHTML = 'Клавиатура создана в операционной системе Windows<br>Для переключения языка комбинация: левыe shift + ctrl';
     view.append(descr);
-
 
     console.log(virtKeyboard.keys);
 
@@ -59,7 +62,7 @@ const addKeyboardEventsHandler = function () {
         console.log('repeat = ', ev.repeat);
         if (!ev.repeat) {
             pressedKeys.push(ev.code);
-            console.log('added ' + ev.code);
+            // console.log('added ' + ev.code);
         }
         pressButtonHandler(ev.code);
 
@@ -82,10 +85,45 @@ const pressButtonHandler = function (id) {
             currVKey.releaseKey();
         }
     }
-    console.log('shift =' + currVKey.id);
+    // console.log('shift =' + currVKey.id);
     if (currVKey.id.includes('Shift')) {
         console.log('includes shift down');
         virtKeyboard.pressedShift();
+    }
+    textBox.setFocus();
+    if (virtKeyboard.isPrintable(currVKey.id)) {
+        textBox.addChar(currVKey.content);
+    } else {
+        switch (currVKey.id) {
+            case 'Tab':
+                textBox.addChar(' ');
+                textBox.addChar(' ');
+                textBox.addChar(' ');
+                textBox.addChar(' ');
+                break;
+            case 'Backspace':
+                textBox.delete(-1);
+                break;
+            case 'Delete':
+                textBox.delete(1);
+                break;
+            case 'Enter':
+                textBox.enter();
+                break;
+            case 'ArrowLeft':
+                textBox.moveHoriz(-1);
+                break;
+            case 'ArrowRight':
+                textBox.moveHoriz(1);
+                break;
+            case 'ArrowUp':
+                textBox.moveVert(-1);
+                break;
+            case 'ArrowDown':
+                textBox.moveVert(1);
+                break;
+            default:
+        }
     }
 };
 
@@ -100,8 +138,8 @@ const releaseButtonHandler = function (id) {
             localStorage.setItem('isEngl', isEngl);
         }
     }
-    console.log(pressedKeys);
-    console.log('shift up =' + currVKey.id +' i = '+ i);
+    // console.log(pressedKeys);
+    // console.log('shift up =' + currVKey.id +' i = '+ i);
     if (!(i === -1)) {
         pressedKeys.splice(i, 1);
         if (currVKey.id === 'CapsLock') {
@@ -125,10 +163,10 @@ const addVirtKeyBoardEventsHandler = function () {
     virtKeyboard.node.addEventListener('mousedown', (ev) => {
         console.log('mousedown');
         const currKeyElement = ev.target.closest('.keyButton');
-        mousePressedKey = currKeyElement.getAttribute('data-id');
         if (!currKeyElement) {
             return;
         }
+        mousePressedKey = currKeyElement.getAttribute('data-id');
         pressedKeys.push(mousePressedKey);
         pressButtonHandler(currKeyElement.getAttribute('data-id'));
     });

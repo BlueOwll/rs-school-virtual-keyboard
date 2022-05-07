@@ -15,41 +15,11 @@ const keysLettersRusUp = 'Ё!"№;%:?*()_+ЙЦУКЕНГШЩЗХЪ/ФЫВАПР�
 export default class Keyboard {
     keys;
 
-    _printedKeyNums;
-
-    _btnBackSpace;
-
-    _btnDel;
-
-    _btnTab;
-
-    _btnCapsLock;
-
-    _btnLeftShift;
-
-    _btnRightShift;
-
-    _btnLeftCtrl;
-
-    _btnRightCtrl;
-
-    _btnLeftAlt;
-
-    _btnRightAlt;
-
-    _btnEnter;
-
-    _btnWin;
-
-    _btnsArrows;
-
     _kb;
 
     _legend;
 
     _keyPressed;
-
-    onKeyClick;
 
     constructor(parentNode, isEngl) {
         this.keys = [];
@@ -74,7 +44,7 @@ export default class Keyboard {
         this._printedKeyNums.push(this.keys.length - 1);
         // eslint-disable-next-line no-plusplus
         for (let i = 1; i < 10; i++) {
-            this.keys.push(new KeyButton(row1, '', '', 'Digit' + i));
+            this.keys.push(new KeyButton(row1, '', '', `Digit${i}`));
             this._printedKeyNums.push(this.keys.length - 1);
         }
         this.keys.push(new KeyButton(row1, '', '', 'Digit0'));
@@ -101,7 +71,7 @@ export default class Keyboard {
         this._printedKeyNums.push(this.keys.length - 1);
         this.keys.push(new KeyButton(row2, '', '', 'Backslash'));
         this._printedKeyNums.push(this.keys.length - 1);
-        this.keys.push(new KeyButton(row2, 'Del', 'tab-size'));
+        this.keys.push(new KeyButton(row2, 'Del', 'tab-size', 'Delete'));
         console.log(this.keys);
         this._kb.append(row2);
 
@@ -110,7 +80,7 @@ export default class Keyboard {
         console.log('under construction3');
         this.keys.push(new KeyButton(row3, 'CapsLock', 'double-size'));
         for (let i = 0; i < 9; i++) {
-            this.keys.push(new KeyButton(row3, '', '', 'Key' + keysLettersEngUp[i + 26]));
+            this.keys.push(new KeyButton(row3, '', '', `Key${keysLettersEngUp[i + 26]}`));
             this._printedKeyNums.push(this.keys.length - 1);
         }
         this.keys.push(new KeyButton(row3, '', '', 'Semicolon'));
@@ -126,7 +96,7 @@ export default class Keyboard {
         console.log('under construction4');
         this.keys.push(new KeyButton(row4, 'Shift', 'double-size', 'ShiftLeft'));
         for (let i = 0; i < 7; i++) {
-            this.keys.push(new KeyButton(row4, '', '', 'Key' + keysLettersEngUp[i + 37]));
+            this.keys.push(new KeyButton(row4, '', '', `Key${keysLettersEngUp[i + 37]}`));
             this._printedKeyNums.push(this.keys.length - 1);
         }
         this.keys.push(new KeyButton(row4, '', '', 'Comma'));
@@ -191,6 +161,17 @@ export default class Keyboard {
             }
         });
         return res;
+    }
+
+    isPrintable(id) {
+        for (let i = 0; i < this.keys.length; i++) {
+            if (this.keys[i].id === id) {
+                if (this._printedKeyNums.includes(i)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     _updateLegend() {

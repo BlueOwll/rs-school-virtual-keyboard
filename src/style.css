@@ -7,6 +7,14 @@ html {
   width: 522px;
 }
 
+.textbox {
+  display: block;
+  margin: auto;
+  margin-top: 18px;
+  width: 504px;
+  height: 120px;
+}
+
 .keyButton {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -78,6 +86,10 @@ html {
 .descr {
   font: normal 400 1.5rem/200% Arial,sans-serif;
   text-align: center;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
 
 .lang {
@@ -85,5 +97,9 @@ html {
   color: white;
   font: normal 400 1.5rem/200% Arial,sans-serif;
   text-align: center;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
 /*# sourceMappingURL=style.css.map */
