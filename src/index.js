@@ -7,6 +7,7 @@ import Keyboard from './keyboard.js';
 
 let isEngl = true;
 let virtKeyboard;
+let lang;
 
 window.onload = function () {
     if (localStorage.getItem('isEngl') !== null) {
@@ -23,7 +24,24 @@ window.onload = function () {
     view.className = 'view';
     document.body.append(view);
 
+    const langLabel = document.createElement('span');
+    langLabel.className = 'descr';
+    langLabel.innerHTML = 'Текущая раскладка:    ';
+    view.append(langLabel);
+
+    lang = document.createElement('span');
+    lang.className = 'lang';
+    lang.innerHTML = (isEngl) ? 'ENG' : 'РУС';
+    view.append(lang);
+
     virtKeyboard = new Keyboard(view, isEngl);
+
+
+    const descr = document.createElement('p');
+    descr.className = 'descr';
+    descr.innerHTML = 'Клавиатура создана в операционной системе Windows<br>Для переключения языка комбинация: левыe shift + ctrl';
+    view.append(descr);
+
 
     console.log(virtKeyboard.keys);
 
@@ -53,52 +71,41 @@ const addKeyboardEventsHandler = function () {
 };
 const pressButtonHandler = function (id) {
     const currVKey = virtKeyboard.findKeyById(id);
-        
-        console.log(pressedKeys);
-        if (currVKey) {
-            currVKey.pressKey();
+    if (currVKey) {
+        currVKey.pressKey();
+    }
+    if (currVKey.id === 'CapsLock') {
+        virtKeyboard.pressedCapsLock();
+        if (!virtKeyboard.isCapsLock) {
+            currVKey.releaseKey();
         }
-        if (currVKey.id === 'CapsLock') {
-            virtKeyboard.pressedCapsLock();
-            if (!virtKeyboard.isCapsLock) {
-                currVKey.releaseKey();
-            }
-            console.log('cAPSLOCK DOWN');
-        }
-        if (currVKey.id.includes('Shift')) {
-            virtKeyboard.pressedShift();
-        }
-        console.log('pressedkes = ' + pressedKeys);
+    }
+    if (currVKey.id.includes('Shift')) {
+        virtKeyboard.pressedShift();
+    }
 };
 
 const releaseButtonHandler = function (id) {
     const currVKey = virtKeyboard.findKeyById(id);
-        const i = pressedKeys.indexOf(currVKey.id);
-        console.log('released key ' + id);
-        if ((id === 'ShiftLeft') || (id === 'ControlLeft')) {
-            console.log('step 1 ' +id);
-            if((pressedKeys.includes('ShiftLeft')) && (pressedKeys.includes('ControlLeft'))) {
-        // if (((id === 'ShiftLeft') && (pressedKeys.includes('ControlLeft'))) || 
-        // ((id === 'ControlLeft') && (pressedKeys.includes('ShiftLeft')))) { 
-            console.log('step 2 ' +id);
+    const i = pressedKeys.indexOf(currVKey.id);
+    if ((id === 'ShiftLeft') || (id === 'ControlLeft')) {
+        if ((pressedKeys.includes('ShiftLeft')) && (pressedKeys.includes('ControlLeft'))) {
             isEngl = !isEngl;
             virtKeyboard.changeLayout(isEngl);
+            lang.innerHTML = (isEngl) ? 'ENG' : 'РУС';
             localStorage.setItem('isEngl', isEngl);
-            console.log('is engl ' + isEngl);
-            }
         }
-        if (!(i === -1)) {
-            pressedKeys.splice(i, 1);
-            // console.log('pressedkes = ' + pressedKeys);
-            if (currVKey.id === 'CapsLock') {
-                return;
-            }
-            if (currVKey.id.includes('Shift')) {
-                virtKeyboard.releaseShift();
-            }
-            currVKey.releaseKey();
+    }
+    if (!(i === -1)) {
+        pressedKeys.splice(i, 1);
+        if (currVKey.id === 'CapsLock') {
+            return;
         }
-        console.log('pressedkes = ' + pressedKeys);
+        if (currVKey.id.includes('Shift')) {
+            virtKeyboard.releaseShift();
+        }
+        currVKey.releaseKey();
+    }
 };
 
 const addVirtKeyBoardEventsHandler = function () {

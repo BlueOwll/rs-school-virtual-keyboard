@@ -15,6 +15,7 @@ html{
     width: $view-width;
 }
 
+
 .keyButton{
     display:flex;
     justify-content: center;
@@ -57,4 +58,14 @@ html{
     display: flex;
     justify-content: space-between;
 
+}
+.descr{
+    font: normal 400 1.5rem/200% Arial,sans-serif;
+    text-align: center;
+}
+.lang{
+    background-color: blueviolet;
+    color: white;
+    font: normal 400 1.5rem/200% Arial,sans-serif;
+    text-align: center;   
 }

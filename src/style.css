@@ -74,4 +74,16 @@ html {
       -ms-flex-pack: justify;
           justify-content: space-between;
 }
+
+.descr {
+  font: normal 400 1.5rem/200% Arial,sans-serif;
+  text-align: center;
+}
+
+.lang {
+  background-color: blueviolet;
+  color: white;
+  font: normal 400 1.5rem/200% Arial,sans-serif;
+  text-align: center;
+}
 /*# sourceMappingURL=style.css.map */

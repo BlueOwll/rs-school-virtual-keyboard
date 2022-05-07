@@ -180,6 +180,7 @@ export default class Keyboard {
 
     changeLayout(layt) {
         this._isEngl = layt;
+        this._updateLegend();
     }
 
     findKeyById(id) {
