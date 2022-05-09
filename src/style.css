@@ -3,16 +3,20 @@ html {
 }
 
 .view {
-  min-width: 522px;
-  width: 522px;
+  min-width: 870px;
+  width: 870px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 10px;
 }
 
 .textbox {
   display: block;
   margin: auto;
-  margin-top: 18px;
-  width: 504px;
-  height: 120px;
+  margin-top: 30px;
+  width: 840px;
+  height: 200px;
+  font-size: 25px;
 }
 
 .keyButton {
@@ -28,13 +32,14 @@ html {
   margin: 0;
   background-color: #000;
   color: #FFF;
-  width: 30px;
-  height: 30px;
+  width: 50px;
+  height: 50px;
   border-radius: 5px;
   position: relative;
   top: 0;
   left: 0;
   font: normal 400 1rem/110% Arial,sans-serif;
+  font-size: 16.66667px;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
@@ -51,20 +56,20 @@ html {
 
 .keyButton.pressed {
   background-color: blueviolet;
-  top: 1.5px;
-  left: 1.5px;
+  top: 2.5px;
+  left: 2.5px;
 }
 
 .keyButton.tab-size {
-  width: 36px;
+  width: 60px;
 }
 
 .keyButton.double-size {
-  width: 66px;
+  width: 110px;
 }
 
 .keyButton.space {
-  width: 252px;
+  width: 420px;
 }
 
 .keyboard {
@@ -75,8 +80,8 @@ html {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  gap: 6px;
-  padding: 6px;
+  gap: 10px;
+  padding: 10px;
 }
 
 .keyboard-row {
@@ -90,6 +95,7 @@ html {
 
 .descr {
   font: normal 400 1.5rem/200% Arial,sans-serif;
+  font-size: 16.66667px;
   text-align: center;
   -webkit-user-select: none;
      -moz-user-select: none;
@@ -101,6 +107,7 @@ html {
   background-color: blueviolet;
   color: white;
   font: normal 400 1.5rem/200% Arial,sans-serif;
+  font-size: 25px;
   text-align: center;
   -webkit-user-select: none;
      -moz-user-select: none;

@@ -1,6 +1,4 @@
 /* eslint-disable linebreak-style */
-/* eslint-disable indent */
-/* eslint-disable linebreak-style */
 // import {KeyButton} from './keyButton.js';
 // eslint-disable-next-line import/extensions
 import Keyboard from './keyboard.js';
@@ -12,7 +10,7 @@ let virtKeyboard;
 let textBox;
 let lang;
 
-window.onload = function () {
+window.onload = function app() {
     if (localStorage.getItem('isEngl') !== null) {
         // console.log('isEngl ' + localStorage.getItem('isEngl'));
         isEngl = localStorage.getItem('isEngl') === 'true';
@@ -21,7 +19,7 @@ window.onload = function () {
     }
     localStorage.setItem('isEngl', isEngl);
 
-    console.log('hello!');
+    // console.log('hello!');
 
     const view = document.createElement('div');
     view.className = 'view';
@@ -46,20 +44,21 @@ window.onload = function () {
     descr.innerHTML = 'Клавиатура создана в операционной системе Windows<br>Для переключения языка комбинация: левыe shift + ctrl';
     view.append(descr);
 
-    console.log(virtKeyboard.keys);
+    // console.log(virtKeyboard.keys);
 
     addKeyboardEventsHandler();
     addVirtKeyBoardEventsHandler();
 };
+
 const pressedKeys = [];
 let mousePressedKey = '';
 
-const addKeyboardEventsHandler = function () {
+function addKeyboardEventsHandler() {
     document.addEventListener('keydown', (ev) => {
         ev.preventDefault();
-        console.log('key = ', ev.key);
-        console.log('code = ', ev.code);
-        console.log('repeat = ', ev.repeat);
+        // console.log('key = ', ev.key);
+        // console.log('code = ', ev.code);
+        // console.log('repeat = ', ev.repeat);
         if (!ev.repeat) {
             pressedKeys.push(ev.code);
             // console.log('added ' + ev.code);
@@ -70,11 +69,13 @@ const addKeyboardEventsHandler = function () {
     });
 
     document.addEventListener('keyup', (ev) => {
+        console.log('realesedkeykeyup begin ev lis');
         ev.preventDefault();
+        console.log('keyup ' + ev.code);
         releaseButtonHandler(ev.code);
     });
-};
-const pressButtonHandler = function (id) {
+}
+function pressButtonHandler(id) {
     const currVKey = virtKeyboard.findKeyById(id);
     if (currVKey) {
         currVKey.pressKey();
@@ -87,13 +88,14 @@ const pressButtonHandler = function (id) {
     }
     // console.log('shift =' + currVKey.id);
     if (currVKey.id.includes('Shift')) {
-        console.log('includes shift down');
+        // console.log('includes shift down');
         virtKeyboard.pressedShift();
-    }
-    textBox.setFocus();
+    }   
     if (virtKeyboard.isPrintable(currVKey.id)) {
+        textBox.setFocus();
         textBox.addChar(currVKey.content);
     } else {
+        console.log('unprintable');
         switch (currVKey.id) {
             case 'Tab':
                 textBox.addChar(' ');
@@ -111,6 +113,7 @@ const pressButtonHandler = function (id) {
                 textBox.enter();
                 break;
             case 'ArrowLeft':
+                console.log('arrow left');
                 textBox.moveHoriz(-1);
                 break;
             case 'ArrowRight':
@@ -122,12 +125,23 @@ const pressButtonHandler = function (id) {
             case 'ArrowDown':
                 textBox.moveVert(1);
                 break;
+            case 'ShiftRight':
+                console.log('before break');
+                break;
+            case 'ShiftLeft':
+            case 'ControlLeft':
+            case 'ControlRight':
+            case 'AltLeft':
+            case 'AltRight':
+                
+                break;
             default:
+                break;
         }
     }
-};
+}
 
-const releaseButtonHandler = function (id) {
+function releaseButtonHandler(id) {
     const currVKey = virtKeyboard.findKeyById(id);
     const i = pressedKeys.indexOf(currVKey.id);
     if ((id === 'ShiftLeft') || (id === 'ControlLeft')) {
@@ -138,7 +152,7 @@ const releaseButtonHandler = function (id) {
             localStorage.setItem('isEngl', isEngl);
         }
     }
-    // console.log(pressedKeys);
+    
     // console.log('shift up =' + currVKey.id +' i = '+ i);
     if (!(i === -1)) {
         pressedKeys.splice(i, 1);
@@ -146,7 +160,7 @@ const releaseButtonHandler = function (id) {
             return;
         }
         if (currVKey.id.includes('Shift')) {
-            console.log('includes shift up');
+            // console.log('includes shift up');
             virtKeyboard.releaseShift();
         }
         currVKey.releaseKey();
@@ -157,21 +171,24 @@ const releaseButtonHandler = function (id) {
             mousePressedKey = '';
         }
     }
-};
+}
 
-const addVirtKeyBoardEventsHandler = function () {
+function addVirtKeyBoardEventsHandler() {
     virtKeyboard.node.addEventListener('mousedown', (ev) => {
-        console.log('mousedown');
+        // console.log('mousedown');
         const currKeyElement = ev.target.closest('.keyButton');
         if (!currKeyElement) {
             return;
+        }
+        if (mousePressedKey && (mousePressedKey !== 'CapsLock')) {
+            virtKeyboard.findKeyById(mousePressedKey).releaseKey();
         }
         mousePressedKey = currKeyElement.getAttribute('data-id');
         pressedKeys.push(mousePressedKey);
         pressButtonHandler(currKeyElement.getAttribute('data-id'));
     });
     virtKeyboard.node.addEventListener('mouseup', (ev) => {
-        console.log('mouseup');
+        // console.log('mouseup');
         const currKeyElement = ev.target.closest('.keyButton');
         if (mousePressedKey && (mousePressedKey !== 'CapsLock')) {
             virtKeyboard.findKeyById(mousePressedKey).releaseKey();
@@ -181,4 +198,4 @@ const addVirtKeyBoardEventsHandler = function () {
         }
         releaseButtonHandler(currKeyElement.getAttribute('data-id'));
     });
-};
+}
