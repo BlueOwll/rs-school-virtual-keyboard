@@ -11,5 +11,8 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
+      "no-use-before-define":  { "functions": false, "classes": true, "variables": true },
+      "linebreak-style": "windows"
   },
+ 
 };

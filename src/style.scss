@@ -34,6 +34,9 @@ html{
     width:$key-size;
     height:$key-size;
     border-radius: 5px;
+    position: relative;
+    top:0;
+    left:0;
     font: normal 400 1rem/110% Arial,sans-serif;
     user-select: none;
     p{
@@ -44,6 +47,8 @@ html{
     }
     &.pressed{
         background-color: blueviolet;
+        top: $key-gap / 4;
+        left: $key-gap / 4;
     }
     &.tab-size{
         width: $key-tab-size;

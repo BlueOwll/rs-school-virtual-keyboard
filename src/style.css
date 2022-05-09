@@ -31,6 +31,9 @@ html {
   width: 30px;
   height: 30px;
   border-radius: 5px;
+  position: relative;
+  top: 0;
+  left: 0;
   font: normal 400 1rem/110% Arial,sans-serif;
   -webkit-user-select: none;
      -moz-user-select: none;
@@ -48,6 +51,8 @@ html {
 
 .keyButton.pressed {
   background-color: blueviolet;
+  top: 1.5px;
+  left: 1.5px;
 }
 
 .keyButton.tab-size {
