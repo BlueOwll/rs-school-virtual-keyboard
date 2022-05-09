@@ -31,11 +31,11 @@ export default class KeyButton{
         // this.node.setAttribute('data-id', content);
     }
 
-    pressKey() {
+    keyDown() {
         this.node.classList.add('pressed');
     }
 
-    releaseKey() {
+    keyUp() {
         this.node.classList.remove('pressed');
     }
 }

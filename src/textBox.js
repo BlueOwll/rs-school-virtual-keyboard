@@ -50,7 +50,7 @@ export default class TextBox {
     }
 
     moveVert(dir) {
-        this.pos = (dir === -1) ? 0 : this.content.length - 1;
+        this.pos = (dir === -1) ? 0 : this.content.length;
         this.setFocus();
     }
 }

@@ -27,7 +27,8 @@ export default class Keyboard {
         this._legend = [];
         this.isCapsLock = false;
         this.isShift = false;
-        this._isEngl = isEngl;
+        this.isEngl = isEngl;
+        this._pressedKeys = [];
 
         this._kb = document.createElement('div');
         this._kb.className = 'keyboard';
@@ -38,7 +39,7 @@ export default class Keyboard {
 
         const row1 = document.createElement('div');
         row1.className = 'keyboard-row';
-        console.log('under construction');
+        // console.log('under construction');
 
         this.keys.push(new KeyButton(row1, '', '', 'Backquote'));
         this._printedKeyNums.push(this.keys.length - 1);
@@ -54,12 +55,12 @@ export default class Keyboard {
         this.keys.push(new KeyButton(row1, '', '', 'Equal'));
         this._printedKeyNums.push(this.keys.length - 1);
         this.keys.push(new KeyButton(row1, 'Backspace', 'double-size'));
-        console.log(this.keys);
+        // console.log(this.keys);
         this._kb.append(row1);
 
         const row2 = document.createElement('div');
         row2.className = 'keyboard-row';
-        console.log('under construction2');
+        // console.log('under construction2');
         this.keys.push(new KeyButton(row2, 'Tab', 'tab-size'));
         for (let i = 0; i < 10; i++) {
             this.keys.push(new KeyButton(row2, '', '', `Key${keysLettersEngUp[i + 13]}`));
@@ -72,12 +73,12 @@ export default class Keyboard {
         this.keys.push(new KeyButton(row2, '', '', 'Backslash'));
         this._printedKeyNums.push(this.keys.length - 1);
         this.keys.push(new KeyButton(row2, 'Del', 'tab-size', 'Delete'));
-        console.log(this.keys);
+        // console.log(this.keys);
         this._kb.append(row2);
 
         const row3 = document.createElement('div');
         row3.className = 'keyboard-row';
-        console.log('under construction3');
+        // console.log('under construction3');
         this.keys.push(new KeyButton(row3, 'CapsLock', 'double-size'));
         for (let i = 0; i < 9; i++) {
             this.keys.push(new KeyButton(row3, '', '', `Key${keysLettersEngUp[i + 26]}`));
@@ -88,12 +89,12 @@ export default class Keyboard {
         this.keys.push(new KeyButton(row3, '', '', 'Quote'));
         this._printedKeyNums.push(this.keys.length - 1);
         this.keys.push(new KeyButton(row3, 'Enter', 'double-size'));
-        console.log(this.keys);
+        // console.log(this.keys);
         this._kb.append(row3);
 
         const row4 = document.createElement('div');
         row4.className = 'keyboard-row';
-        console.log('under construction4');
+        // console.log('under construction4');
         this.keys.push(new KeyButton(row4, 'Shift', 'double-size', 'ShiftLeft'));
         for (let i = 0; i < 7; i++) {
             this.keys.push(new KeyButton(row4, '', '', `Key${keysLettersEngUp[i + 37]}`));
@@ -125,7 +126,73 @@ export default class Keyboard {
 
         this._updateLegend();
 
-        console.log('legend updated');
+        // console.log('legend updated');
+    }
+
+    isPressed(id) {
+        return this._pressedKeys.includes(id);
+    }
+
+    pressKey(id) {
+        if (this._pressedKeys.includes(id)) {
+            return false;
+        }
+        // console.log('pressed key ' + id);
+        this._pressedKeys.push(id);
+        // console.log(this._pressedKeys);
+        if (id === 'CapsLock') {
+            this.pressedCapsLock();
+            if (!this.isCapsLock) {
+                this.findKeyById(id).keyUp();
+                return true;
+            }
+        }
+
+        this._checkForShiftAndSwitch();
+
+        this.findKeyById(id).keyDown();
+        return true;
+    }
+
+    releaseKey(id) {
+        // console.log('release of ' + id);
+
+        if (!this._pressedKeys.includes(id)) {
+            return false;
+        }
+
+        if ((id === 'ShiftLeft') || (id === 'ControlLeft')) {
+            if ((this._pressedKeys.length === 2) && (this._pressedKeys.includes('ShiftLeft')) && (this._pressedKeys.includes('ControlLeft'))) {
+                this.changeLayout();
+            }
+        }
+        const k = this._pressedKeys.indexOf(id);
+        this._pressedKeys.splice(k, 1);
+
+        // console.log('key to release ' + id);
+        // console.log(this._pressedKeys);
+
+        if (id === 'CapsLock') {
+            return true;
+        }
+        /* if (id.includes('Shift')) {
+            // console.log('includes shift up');
+            this.releaseShift();
+        } */
+        this._checkForShiftAndSwitch();
+
+        this.findKeyById(id).keyUp();
+        return true;
+    }
+
+    _checkForShiftAndSwitch() {
+        let res = null;
+        this._pressedKeys.forEach((key) => {
+            if (key.includes('Shift')) {
+                res = true;
+            }
+         });
+        this.pressedShift(res);
     }
 
     pressedCapsLock() {
@@ -138,18 +205,13 @@ export default class Keyboard {
         this._updateLegend();
     }
 
-    pressedShift() {
-        this.isShift = true;
+    pressedShift(dir) {
+        this.isShift = dir;
         this._updateLegend();
     }
 
-    releaseShift() {
-        this.isShift = false;
-        this._updateLegend();
-    }
-
-    changeLayout(layt) {
-        this._isEngl = layt;
+    changeLayout() {
+        this.isEngl = !this.isEngl;
         this._updateLegend();
     }
 
@@ -180,7 +242,7 @@ export default class Keyboard {
             this._legend = keysLettersEngLow.slice();
         }
         if (!this.isShift) {
-            if (this._isEngl) {
+            if (this.isEngl) {
                 this._legend = keysLettersEngLow.slice();
             } else {
                 this._legend = keysLettersRusLow.slice();
@@ -189,7 +251,7 @@ export default class Keyboard {
                 this._legend = this._legend.map((v) => v.toUpperCase());
             }
         } else {
-            if (this._isEngl) {
+            if (this.isEngl) {
                 this._legend = keysLettersEngUp.slice();
             } else {
                 this._legend = keysLettersRusUp.slice();
