@@ -1,0 +1,117 @@
+html {
+  font-size: 10px;
+}
+
+.view {
+  min-width: 870px;
+  width: 870px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 10px;
+}
+
+.textbox {
+  display: block;
+  margin: auto;
+  margin-top: 30px;
+  width: 840px;
+  height: 200px;
+  font-size: 25px;
+}
+
+.keyButton {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin: 0;
+  background-color: #000;
+  color: #FFF;
+  width: 50px;
+  height: 50px;
+  border-radius: 5px;
+  position: relative;
+  top: 0;
+  left: 0;
+  font: normal 400 1rem/110% Arial,sans-serif;
+  font-size: 16.66667px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+.keyButton p {
+  margin: auto;
+}
+
+.keyButton:hover {
+  background-color: #4d1a7c;
+}
+
+.keyButton.pressed {
+  background-color: blueviolet;
+  top: 2.5px;
+  left: 2.5px;
+}
+
+.keyButton.tab-size {
+  width: 60px;
+}
+
+.keyButton.double-size {
+  width: 110px;
+}
+
+.keyButton.space {
+  width: 420px;
+}
+
+.keyboard {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+}
+
+.keyboard-row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.descr {
+  font: normal 400 1.5rem/200% Arial,sans-serif;
+  font-size: 16.66667px;
+  text-align: center;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+.lang {
+  background-color: blueviolet;
+  color: white;
+  font: normal 400 1.5rem/200% Arial,sans-serif;
+  font-size: 25px;
+  text-align: center;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+/*# sourceMappingURL=style.css.map */

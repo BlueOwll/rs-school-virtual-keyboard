@@ -1,0 +1,95 @@
+$key-size: 50px;
+$key-gap: $key-size / 5;
+$key-tab-size: $key-size * 1.2;
+$key-double-size: $key-size *2 + $key-gap;
+$key-back: $key-double-size + $key-gap;
+$key-space-size: ($key-size  + $key-gap) * 7;
+
+$view-width: ($key-size + $key-gap *0.8)* 15;
+$font-size: $key-size / 3;
+
+html{
+    font-size: 10px;
+}
+.view{
+    min-width: $view-width;
+    width: $view-width;
+    margin-left:auto;
+    margin-right: auto;
+    padding-top: $key-gap;
+}
+.textbox{
+    display:block;
+    margin: auto;
+    margin-top: 3 * $key-gap;
+    width:  $view-width - 3 * $key-gap;
+    
+    //width: $key-size * 17;
+    height: $key-size * 4;
+    font-size: $font-size *1.5;
+}
+
+.keyButton{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    background-color: #000;
+    color:#FFF;
+    width:$key-size;
+    height:$key-size;
+    border-radius: 5px;
+    position: relative;
+    top:0;
+    left:0;
+    font: normal 400 1rem/110% Arial,sans-serif;
+    font-size: $font-size;
+    user-select: none;
+    p{
+        margin:auto;
+    }
+    &:hover{
+        background-color: rgb(77, 26, 124);
+    }
+    &.pressed{
+        background-color: blueviolet;
+        top: $key-gap / 4;
+        left: $key-gap / 4;
+    }
+    &.tab-size{
+        width: $key-tab-size;
+    }
+    &.double-size{
+        width: $key-double-size;
+    }
+    &.space{
+        width: $key-space-size; 
+    }
+
+}
+.keyboard{
+    display: flex;
+    flex-direction: column;
+    gap: $key-gap;
+    padding: $key-gap;
+}
+.keyboard-row{
+    display: flex;
+    justify-content: space-between;
+
+}
+.descr{
+    font: normal 400 1.5rem/200% Arial,sans-serif;
+    font-size: $font-size;
+    text-align: center;
+    user-select: none;
+
+}
+.lang{
+    background-color: blueviolet;
+    color: white;
+    font: normal 400 1.5rem/200% Arial,sans-serif;
+    font-size: $font-size *1.5;
+    text-align: center;   
+    user-select: none;
+}
